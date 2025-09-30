@@ -31,7 +31,8 @@
   rmargin={1in},
   tmargin={1in},
   bmargin={1in},
-  footskip={0.5in}
+  footskip={0.5in},
+  showframe,
 ]{geometry} % set page margins
 \RequirePackage{anyfontsize} % fixes some weirdness with choosing font size
 \RequirePackage[absolute, overlay]{textpos} % for placing text at absolute locations with textbox* environment
@@ -157,32 +158,132 @@
 
 }
 
+%\def\@item[#1]{%
+%        \addvspace\@topsep
+%        \addvspace{-\parskip}%
+%        \message{ADDED PENALTY}
+%    \global\@inlabelfalse
+%    \global\@newlistfalse
+%  }
+%\def\@trivlist{%
+%  \@topsepadd \topsep
+%    \advance\@topsepadd \partopsep
+%%    \@noparlistfalse
+%    \@topsep \@topsepadd
+%    
+%%  \advance\@topsep \parskip
+%%  \leftskip \z@skip
+%%  \rightskip \@rightskip
+%%  \parfillskip \@flushglue
+%%  \par@deathcycles \z@
+%%  \@setpar{
+%%             {\@@par}%
+%%           }%
+%%  \global \@newlisttrue
+%%  \@outerparskip \parskip
+%  }
+  
 \newcommand{\@abstractpage} {
   \pdfbookmark[0]{Abstract}{abstract}
-  \vspace*{0mm}
-  \thispagestyle{plain}
-  \begin{textblock*}{\textwidth}(1.5in, 2.5in)
+    \thispagestyle{plain}
+\showboxdepth=\maxdimen
+\showboxbreadth=\maxdimen
+\setlength{\topskip}{0mm}
+  \nointerlineskip
+  \setlength{\parskip}{0pt}
+  \setlength{\rightskip}{0pt}
+  \vspace*{2.5in}
+    \begin{textblock*}{\textwidth}(1.5in, 2.5in)
   \begin{center}
     ABSTRACT OF \@DOCTYPE
   \end{center}
   \end{textblock*}
-  \begin{textblock*}{\textwidth}(1.5in, 3.5in)
-  \begin{center}
-    \MakeUppercase{\@title}
-  \end{center}
-  \end{textblock*}
-  \begin{textblock*}{\textwidth}(1.5in, 4.5in)
-    \@abstract\\
+%\setlength{\topsep}{0pt}
+  % We could use \centering instead of the center environment here
+  % to really meet the specifications.
+%  \begin{center}
+%  \parsep\parskip
+%  \@nmbrlistfalse
+
+  \@topsepadd \topsep
+    \advance\@topsepadd \partopsep
+%    \@noparlistfalse
+%    \@topsep \@topsepadd
+\setlength{\@topsep}{1\@topsepadd}
+    
+% \showthe\@topsep
+
+
+
+ {\centering 
+ \addvspace\@topsep
+ 
+ \MakeUppercase{\@title} \par}
+
+%\vspace*{-39.02531pt}
+% 0.45in gives us roughly the spacing in the spacing guide for the abstract page.
+ \vspace*{0.45in} 
+
+% 
+ \@abstract\\
     \ifdefempty{\@keywords}{}{
       \vspace*{1mm}\\
       KEYWORDS: \@keywords
     }
-  \end{textblock*}
-  \begin{textblock*}{\@signaturewidth}(\paperwidth - \@signaturewidth - 1in,8in)
-    \centering
-    \noindent\@signature{}{\@author}
-    \noindent\@signature{Date}{\@submissionmonth/\@submissionday/\@submissionyear} \\
-  \end{textblock*}
+ 
+ \vfill
+ \hfill
+ 
+% \raggedleft
+%\makebox[\@signaturewidth][s]{
+%    x\hfil \@signature{}{\@author}
+%}
+\raggedleft
+\parbox[c]{\@signaturewidth}{
+ \centering
+ \@signature{}{\@author}
+ \@signature{Date}{\@submissionmonth/\@submissionday/\@submissionyear}
+}
+
+\vspace*{1in}
+%\parbox[c]{\@signaturewidth}{
+%  
+%}
+%    \noindent\@signature{Date}{\@submissionmonth/\@submissionday/\@submissionyear} \\
+%    }
+% \addvspace{-\parskip}%
+%     \global\@inlabelfalse
+%    \global\@newlistfalse
+%  \relax
+
+%\centering
+%\addvspace\topsep
+%\addvspace{-\parskip}
+
+%   ABSTRACT OF \@DOCTYPE \par
+   
+%\endtrivlist
+%   \end{center}
+
+%  \showlists
+
+%  \begin{textblock*}{\textwidth}(1.5in, 3.5in)
+%  \begin{center}
+%    \MakeUppercase{\@title}
+%  \end{center}
+%  \end{textblock*}
+%  \begin{textblock*}{\textwidth}(1.5in, 4.5in)
+%    \@abstract\\
+%    \ifdefempty{\@keywords}{}{
+%      \vspace*{1mm}\\
+%      KEYWORDS: \@keywords
+%    }
+%  \end{textblock*}
+%  \begin{textblock*}{\@signaturewidth}(\paperwidth - \@signaturewidth - 1in,8in)
+%    \centering
+%    \noindent\@signature{}{\@author}
+%    \noindent\@signature{Date}{\@submissionmonth/\@submissionday/\@submissionyear} \\
+%  \end{textblock*}
   \pagebreak
 }
 
