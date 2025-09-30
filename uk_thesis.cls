@@ -31,8 +31,7 @@
   rmargin={1in},
   tmargin={1in},
   bmargin={1in},
-  footskip={0.5in},
-  showframe,
+  footskip={0.5in}
 ]{geometry} % set page margins
 \RequirePackage{anyfontsize} % fixes some weirdness with choosing font size
 \RequirePackage[absolute, overlay]{textpos} % for placing text at absolute locations with textbox* environment
