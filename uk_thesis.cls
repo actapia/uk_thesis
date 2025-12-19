@@ -39,18 +39,36 @@
 \RequirePackage{ulem} % For horizontal rules on intro pages
 \RequirePackage{scrlayer-scrpage} % For configuring headers and footers
 \RequirePackage{bookmark} % to add bookmarks to the PDF output, university requirement
+\RequirePackage{keyval}
 
 % ~~~ TO BE DEFINED BY GRADUATE STUDENT ~~~
 
 \newcommand{\tablecaptionpadding}{\vspace*{3mm}} % Can be redefined to taste. Spacing under a caption and before a tabular in table environment.
 
-\newcommand{\director}[2]{\newcommand{\@director}{#1}\newcommand{\@directordiscipline}{#2}}
+\define@key{director}{firsttitle}{\def\director@firsttitle{#1}}
+\define@key{director}{secondtitle}{\def\director@secondtitle{#1}}
+
+\NewDocumentCommand{\director}{ O{} m m}{
+  \setkeys{director}{firsttitle={Dr.},secondtitle={Professor},#1}
+  \edef\@directorfirsttitle{\director@firsttitle}
+  \edef\@directorsecondtitle{\director@secondtitle}
+  \newcommand{\@director}{#2}
+  \newcommand{\@directordiscipline}{#3}
+}
 
 \newcommand{\dgs}[1]{\newcommand{\@dgs}{#1}}
 
 \newcommand{\@codirector}{}
 \newcommand{\@codirectordiscipline}{}
-\newcommand{\codirector}[2]{\renewcommand{\@codirector}{#1}\renewcommand{\@codirectordiscipline}{#2}}
+\newcommand{\@codirectorfirsttitle}{}
+\newcommand{\@codirectorsecondtitle}{}
+\NewDocumentCommand{\codirector}{ O{} m m}{
+  \setkeys{director}{firsttitle={Dr.},secondtitle={Professor},#1}
+  \edef\@codirectorfirsttitle{\director@firsttitle}
+  \edef\@codirectorsecondtitle{\director@secondtitle}
+  \renewcommand{\@codirector}{#2}
+  \renewcommand{\@codirectordiscipline}{#3}
+}
 
 \newcommand{\alignedcodirector}{\newcommand{\@alignedcodirector}}
 
@@ -126,17 +144,17 @@
       By\\\@author\\
       Lexington, Kentucky\\
       \ifdefempty{\@codirector}{
-        Director: Dr. \@director, Professor of \@directordiscipline\\
+        Director: \@directorfirsttitle{} \@director, \@directorsecondtitle{} of \@directordiscipline\\
       }{
         \ifdef{\@alignedcodirector}{
           \begin{tabular}{lll}
-          Co-Directors:& Dr. \@director,&Professor of \@directordiscipline\\
-          and& Dr. \@codirector,&Professor of \@codirectordiscipline
+          Co-Directors:& \@directorfirsttitle{} \@director,&\@directorsecondtitle{} of \@directordiscipline\\
+          and& \@codirectorfirsttitle{} \@codirector,&\@codirectorsecondtitle{} of \@codirectordiscipline
           \end{tabular}
         }
         {
-          Co-Directors: Dr. \@director, Professor of \@directordiscipline\\
-          and Dr. \@codirector, Professor of \@codirectordiscipline\\
+          Co-Directors: \@directorfirsttitle{} \@director, \@directorsecondtitle{} of \@directordiscipline\\
+          and \@codirectorfirsttitle{} \@codirector, \@codirectorsecondtitle{} of \@codirectordiscipline\\
         }
       }
       Lexington, Kentucky\\
